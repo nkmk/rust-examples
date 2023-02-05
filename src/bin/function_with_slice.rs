@@ -1,4 +1,9 @@
+#[allow(clippy::ptr_arg)]
 fn main() {
+    fn print_first_element_vec(v: &Vec<i32>) {
+        println!("{}", v[0]);
+    }
+
     let v: Vec<i32> = vec![100, 200, 300];
     let a: [i32; 3] = [10, 20, 30];
 
@@ -11,6 +16,10 @@ fn main() {
     // print_first_element_vec(&a);
     // error[E0308]: mismatched types
 
+    fn print_first_element_slice(s: &[i32]) {
+        println!("{}", s[0]);
+    }
+
     print_first_element_slice(&v);
     // 100
 
@@ -19,6 +28,10 @@ fn main() {
 
     print_first_element_slice(&a);
     // 10
+
+    fn first_element_to_zero(s: &mut [i32]) {
+        s[0] = 0;
+    }
 
     let mut v: Vec<i32> = vec![100, 200, 300];
     let mut a: [i32; 3] = [10, 20, 30];
@@ -29,10 +42,18 @@ fn main() {
     first_element_to_zero(&mut a);
     assert_eq!(a, [0, 20, 30]);
 
+    fn push_zero(s: &mut Vec<i32>) {
+        s.push(0);
+    }
+
     let mut v: Vec<i32> = vec![100, 200, 300];
 
     push_zero(&mut v);
     assert_eq!(v, [100, 200, 300, 0]);
+
+    fn print_first_char(s: &str) {
+        println!("{}", s.chars().next().unwrap());
+    }
 
     let s_str: &str = "abc";
     let s_string: String = String::from("xyz");
@@ -49,33 +70,12 @@ fn main() {
     print_first_char(&s_string[1..]);
     // y
 
+    fn push_str_abc(s: &mut String) {
+        s.push_str("_abc");
+    }
+
     let mut s_string: String = String::from("xyz");
 
     push_str_abc(&mut s_string);
     assert_eq!(s_string, "xyz_abc");
-}
-
-#[allow(clippy::ptr_arg)]
-fn print_first_element_vec(v: &Vec<i32>) {
-    println!("{}", v[0]);
-}
-
-fn print_first_element_slice(s: &[i32]) {
-    println!("{}", s[0]);
-}
-
-fn first_element_to_zero(s: &mut [i32]) {
-    s[0] = 0;
-}
-
-fn push_zero(s: &mut Vec<i32>) {
-    s.push(0);
-}
-
-fn print_first_char(s: &str) {
-    println!("{}", s.chars().next().unwrap());
-}
-
-fn push_str_abc(s: &mut String) {
-    s.push_str("_abc");
 }
